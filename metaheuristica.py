@@ -1,4 +1,4 @@
-﻿import csv
+import csv
 import os
 import random
 import statistics
@@ -165,7 +165,16 @@ def _construir_poblacion_inicial(instancia, pop_size, rng, space_only):
 def ejecutar_ag(instancia, sku_to_cluster, config, seed, space_only=False):
     rng = random.Random(seed)
     n = len(instancia)
-    num_clusters = max(sku_to_cluster.values()) + 1 if sku_to_cluster else 1
+    
+    ids_clusters = []
+    for val in (sku_to_cluster or {}).values():
+        if isinstance(val, (list, tuple, set)):
+            ids_clusters.extend(x for x in val if isinstance(x, int))
+        elif isinstance(val, int):
+            ids_clusters.append(val)
+
+    num_clusters = (max(ids_clusters) + 1) if ids_clusters else 1
+    
     pop_size = config["pop_size"]
     generations = config["generations"]
     pc = config["pc"]
