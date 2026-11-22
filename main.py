@@ -259,8 +259,11 @@ def ejecutar():
     titulo("CIERRE")
     print(f"Proceso completo. Revise la carpeta {CARPETA_RESULTADOS}/")
     print(f"Reporte guardado en: {ruta}")
-    if __name__ == "__main__":
+
+
+if __name__ == "__main__":
     ejecutar()
+
 
 
 
