@@ -1,13 +1,3 @@
-"""
-main.py
-Orquestador del proyecto EC3 - Caso C3: MercaBarrio.
-Responsable: [ESCRIBIR NOMBRE]
-
-IMPORTANTE:
-Los módulos del equipo deben exponer las funciones indicadas en
-INTEGRACIÓN DE MÓDULOS. Este archivo coordina; no implementa los
-algoritmos AVL, Kruskal, mochila ni algoritmo genético.
-"""
 
 from pathlib import Path
 from datetime import datetime
@@ -79,7 +69,7 @@ def cargar_datos(semilla):
 
         skus = pd.read_csv(ARCHIVO_SKUS)
         tabla_tickets = pd.read_csv(ARCHIVO_TICKETS)
-        # El CSV contiene una fila por producto y un id_ticket por compra.
+        # El CSV contiene una fila por producto y un id_ticket por compra
         tickets = (
             tabla_tickets.groupby("id_ticket")["ID_SKU"]
             .apply(lambda serie: [int(x) for x in serie.tolist()])
@@ -160,7 +150,7 @@ def ejecutar():
     registrar(f"Semilla: {semilla}")
     registrar(f"Fecha y hora: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
 
-    # -------------------- DATOS --------------------
+    #  DATOS 
     titulo("M1 - DATOS Y ESTRUCTURAS (S1-S4)")
     skus, tickets = cargar_datos(semilla)
     validar_datos(skus, tickets)
@@ -173,7 +163,7 @@ def ejecutar():
     salida_m1, tiempo_m1 = medir_tiempo(funcion_m1, skus, tickets)
     registrar(f"M1 ejecutado en {tiempo_m1:.3f} ms.")
     registrar("S2-S4: revisar el detalle que imprime estructuras.py.")
-    # Si M1 devuelve un DataFrame de candidatas, se conserva para M2-M4.
+    # Si M1 devuelve un DataFrame de candidatas, se conserva para M2-M4
     candidatas = skus
     if isinstance(salida_m1, dict) and isinstance(salida_m1.get("candidatas"), pd.DataFrame):
         candidatas = salida_m1["candidatas"]
@@ -225,8 +215,7 @@ def ejecutar():
     for nombre, complejidad, explicacion in analizar_complejidad():
         registrar(f"- {nombre}: {complejidad}. {explicacion}")
 
-    # El gráfico solicitado por el profesor requiere 4 tamaños.
-    # Aquí se mide el cálculo de métricas sobre prefijos del conjunto de SKU.
+    # cálculo de métricas sobre prefijos del conjunto de SKU.
     tamanos = []
     tiempos = []
     for n in (150, 450, 900, len(skus)):
@@ -272,20 +261,6 @@ def ejecutar():
     print(f"Reporte guardado en: {ruta}")
 
 
-if __name__ == "__main__":
-    try:
-        ejecutar()
-    except KeyboardInterrupt:
-        print("\nEjecución cancelada por el usuario.")
-        sys.exit(1)
-    except Exception as error:
-        print(f"\nERROR EN LA EJECUCIÓN: {error}")
-        print(
-            "\nVerifica que los archivos datos.py/CSV y los módulos "
-            "estructuras.py, red.py, referencia.py y metaheuristica.py "
-            "estén en la misma carpeta y cumplan las interfaces."
-        )
-        sys.exit(1)
 
 
 
